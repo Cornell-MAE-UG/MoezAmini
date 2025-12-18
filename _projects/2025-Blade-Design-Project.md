@@ -20,12 +20,30 @@ This project involved the end-to-end design, fabrication, and experimental valid
 </div>
 
 ### Design Process
-The blade was designed using **Blade Element Momentum (BEM)** principles to define a spanwise chord and twist distribution that maximized useful torque at the selected operating point. A **NACA 4412 airfoil** was chosen for its reliable performance and benign stall behavior in the **Re ≈ 30,000–60,000** range typical of small-scale rotors. A square-root chord taper was implemented,  
-\[
+To quantify the wind speeds most relevant to long-term energy capture, we modeled the inflow using a **Weibull probability distribution** with shape parameter $$(k = 5)$$ and scale parameter $$(c = 5\: \text{m/s}):$$
+\\[
+p(U) = \frac{k}{c} \left(\frac{U}{c}\right)^{k-1}
+\exp\!\left[-\left(\frac{U}{c}\right)^k\right]
+\\]
+
+Rather than optimizing for the most probable wind speed, we evaluated the **power-weighted expectation** of the wind-speed distribution to account for the cubic dependence of aerodynamic power on velocity:
+
+\\[
+\langle P \rangle
+= \int_{0}^{\infty} P(U)\, p(U)\, dU
+= \frac{1}{2}\rho A \int_{0}^{\infty} C_P(U)\, U^3\, p(U)\, dU
+\\]
+
+This analysis indicated that wind speeds near $$(U \approx 5.3~\text{m/s})$$ contribute most significantly to long-term energy production. This value was therefore selected as the **primary design wind speed** used to define the aerodynamic operating point of the rotor.
+
+The blade was then designed using **Blade Element Momentum (BEM)** principles to define a spanwise chord and twist distribution that maximized useful torque at the selected operating point. A **NACA 4412 airfoil** was chosen for its reliable performance and benign stall behavior in the **Re ≈ 30,000–60,000** range typical of small-scale rotors. A square-root chord taper was implemented,
+$$
 c(r) \propto \left(1 - \frac{r}{R}\right)^{1/2},
-\]
-to increase aerodynamic loading near the hub while reducing induced and centrifugal effects toward the tip. Blade twist was prescribed to maintain near-optimal angles of attack across the span under combined axial and tangential inflow. Axial induction effects were neglected due to the rotor’s low solidity, yielding a robust geometry suitable for fabrication and testing.
-#### Testing Procedure
+$$
+to increase aerodynamic loading near the hub while reducing induced and centrifugal effects toward the tip. **Blade twist** was prescribed to maintain **near-optimal angles of attack** across the span under combined axial and tangential inflow. Axial induction effects were neglected due to the rotor’s low solidity, yielding a robust geometry suitable for fabrication and testing.
+
+
+### Testing Procedure
 <img src="{{ '/assets/images/blade/blade_testing.png' | relative_url }}"
      alt="Wind tunnel testing procedure"
      class="project-image">
